@@ -47,13 +47,8 @@ python scripts/generate_image.py mobile-hero
 python scripts/generate_image.py card-background
 
 # Feature banner (requires --feature)
-python scripts/generate_image.py feature-banner --feature "AI Interview"
+python scripts/generate_image.py feature-banner --feature "Meeting notes"
 python scripts/generate_image.py feature-banner --feature "Code Review"
-
-# Interview mode banners (requires --mode)
-python scripts/generate_image.py interview-banner --mode human-human
-python scripts/generate_image.py interview-banner --mode bot-human
-python scripts/generate_image.py interview-banner --mode bot-bot
 
 # Custom prompt with art direction applied automatically
 python scripts/generate_image.py custom --prompt "your concept here" --ar 16:9
