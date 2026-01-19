@@ -1,0 +1,11 @@
+{
+  "name": "art-design-skill",
+  "version": "1.0.0",
+  "description": "Art direction and visual identity system for generating branded imagery with Midjourney",
+  "skills": [
+    {
+      "name": "art-direction-visual-identity",
+      "path": "skills/art-direction-visual-identity/SKILL.md"
+    }
+  ]
+}
