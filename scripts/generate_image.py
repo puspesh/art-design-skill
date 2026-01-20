@@ -3,7 +3,7 @@
 Midjourney Image Generator via APIframe
 
 Generates images using the APIframe.ai Midjourney API with
-pre-configured art direction templates for the interview platform.
+pre-configured art direction templates.
 
 Usage:
     # Using preset templates
@@ -18,6 +18,16 @@ Usage:
 
     # Raw prompt (no art direction applied)
     python generate_image.py raw --prompt "your exact prompt --ar 1:1 --style raw"
+
+    # With style reference (match artistic style of an image)
+    python generate_image.py hero-banner --sref https://example.com/style.jpg
+    python generate_image.py custom --prompt "workspace" --sref https://example.com/style.jpg --sw 150
+
+    # With character reference (maintain character identity)
+    python generate_image.py custom --prompt "person at desk" --cref https://example.com/char.jpg --cw 75
+
+    # With image prompt (influence composition)
+    python generate_image.py custom --prompt "similar scene" --image-url https://example.com/ref.jpg --iw 1.5
 
 Environment:
     APIFRAME_API_KEY: Your APIframe API key (required)
@@ -329,6 +339,29 @@ def apply_art_direction(prompt: str) -> str:
     return prompt + style_addition
 
 
+def apply_image_references(prompt: str, args) -> str:
+    """Append image reference parameters to prompt."""
+    # Add image URL at start if provided (influences composition)
+    if args.image_url:
+        prompt = f"{args.image_url} {prompt}"
+        if args.iw != 1.0:
+            prompt += f" --iw {args.iw}"
+
+    # Add style reference (matches artistic style)
+    if args.sref:
+        prompt += f" --sref {args.sref}"
+        if args.sw != 100:
+            prompt += f" --sw {args.sw}"
+
+    # Add character reference (maintains character identity)
+    if args.cref:
+        prompt += f" --cref {args.cref}"
+        if args.cw != 100:
+            prompt += f" --cw {args.cw}"
+
+    return prompt
+
+
 def list_templates():
     """Print available templates."""
     print("\nAvailable Templates:")
@@ -405,6 +438,38 @@ Examples:
         "--list", "-l", action="store_true", help="List available templates"
     )
 
+    # Image reference arguments
+    parser.add_argument(
+        "--sref",
+        help="Style reference image URL (matches artistic style)",
+    )
+    parser.add_argument(
+        "--sw",
+        type=int,
+        default=100,
+        help="Style weight 0-1000 (default: 100)",
+    )
+    parser.add_argument(
+        "--cref",
+        help="Character reference image URL (maintains character identity)",
+    )
+    parser.add_argument(
+        "--cw",
+        type=int,
+        default=100,
+        help="Character weight 0-100 (default: 100)",
+    )
+    parser.add_argument(
+        "--image-url",
+        help="Image URL to include in prompt (influences composition)",
+    )
+    parser.add_argument(
+        "--iw",
+        type=float,
+        default=1.0,
+        help="Image weight 0-2 (default: 1.0)",
+    )
+
     args = parser.parse_args()
 
     if args.list:
@@ -434,6 +499,9 @@ Examples:
         prompt, aspect_ratio = build_prompt(
             args.template, feature=args.feature, mode=args.mode
         )
+
+    # Apply image references if provided
+    prompt = apply_image_references(prompt, args)
 
     # Submit and wait
     task_id = submit_imagine(prompt, aspect_ratio)

@@ -90,6 +90,48 @@ Or create a `.env` file in the script directory:
 APIFRAME_API_KEY=your_key_here
 ```
 
+### 4. Image Reference Features
+
+Generate images that match the style or composition of existing images.
+
+#### Style Reference (--sref)
+Match the artistic style, colors, and aesthetic of a reference image:
+```bash
+# Apply style from a reference image to a template
+python scripts/generate_image.py hero-banner --sref https://example.com/style.jpg
+
+# Custom prompt with style reference and weight control
+python scripts/generate_image.py custom --prompt "developer workspace" --sref https://example.com/style.jpg --sw 150
+```
+- `--sref`: URL of the style reference image
+- `--sw`: Style weight 0-1000 (default: 100, higher = stronger style influence)
+
+#### Character Reference (--cref)
+Maintain consistent character identity across generations:
+```bash
+python scripts/generate_image.py custom --prompt "person working at desk" --cref https://example.com/character.jpg --cw 75
+```
+- `--cref`: URL of the character reference image
+- `--cw`: Character weight 0-100 (default: 100, lower = focus only on face)
+
+#### Image Prompt (--image-url)
+Use an image to influence composition and content:
+```bash
+python scripts/generate_image.py custom --prompt "similar atmospheric scene" --image-url https://example.com/reference.jpg --iw 1.5
+```
+- `--image-url`: URL of the reference image (added to start of prompt)
+- `--iw`: Image weight 0-2 (default: 1.0)
+
+#### Combining References
+You can combine multiple reference types:
+```bash
+python scripts/generate_image.py custom \
+  --prompt "warm workspace" \
+  --sref https://example.com/style.jpg \
+  --image-url https://example.com/composition.jpg \
+  --ar 16:9
+```
+
 ---
 
 ## The Visual North Star

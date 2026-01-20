@@ -7,6 +7,7 @@ A Claude Code skill for art direction and visual identity, with integrated Midjo
 - **Visual Identity System**: "Calm Confidence" art direction with defined textures, colors, and patterns
 - **Midjourney Integration**: Generate images using pre-configured templates via APIframe API
 - **Prompt Templates**: Hero banners, OG cards, icons, feature banners, and more
+- **Image References**: Use style reference (`--sref`), character reference (`--cref`), or image prompts to match existing images
 - **Local Asset Management**: Download and organize generated images
 
 ## Installation
@@ -83,6 +84,31 @@ APIFRAME_API_KEY=your_key_here
 | `mobile-hero` | 9:16 | Mobile-first contexts |
 | `interview-banner` | 16:9 | Interview mode specific |
 | `card-background` | 4:3 | Card/tile backgrounds |
+
+## Image References
+
+Generate images that match the style or composition of existing images:
+
+```bash
+# Style reference - match artistic style of an image
+python scripts/generate_image.py hero-banner --sref https://example.com/style.jpg
+python scripts/generate_image.py custom --prompt "workspace" --sref https://example.com/style.jpg --sw 150
+
+# Character reference - maintain character identity
+python scripts/generate_image.py custom --prompt "person at desk" --cref https://example.com/char.jpg --cw 75
+
+# Image prompt - influence composition
+python scripts/generate_image.py custom --prompt "similar scene" --image-url https://example.com/ref.jpg --iw 1.5
+```
+
+| Option | Description | Range |
+|--------|-------------|-------|
+| `--sref` | Style reference image URL | - |
+| `--sw` | Style weight | 0-1000 (default: 100) |
+| `--cref` | Character reference image URL | - |
+| `--cw` | Character weight | 0-100 (default: 100) |
+| `--image-url` | Image prompt URL | - |
+| `--iw` | Image weight | 0-2 (default: 1.0) |
 
 ## Visual Identity
 
