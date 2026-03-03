@@ -1,78 +1,84 @@
-# Art Design Skill
+# Art Design Plugin
 
-A Claude Code skill for art direction and visual identity, with integrated Midjourney image generation via APIframe.
+A Claude Code plugin for art direction and visual identity, with integrated image generation via Midjourney and Nano Banana Pro (Gemini).
+
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](CHANGELOG.md)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ## Features
 
-- **Visual Identity System**: "Calm Confidence" art direction with defined textures, colors, and patterns
-- **Midjourney Integration**: Generate images using pre-configured templates via APIframe API
-- **Prompt Templates**: Hero banners, OG cards, icons, feature banners, and more
-- **Image References**: Use style reference (`--sref`), character reference (`--cref`), or image prompts to match existing images
-- **Local Asset Management**: Download and organize generated images
+- **Multi-Engine Support**: Generate with Midjourney or Nano Banana Pro
+- **Visual Identity System**: Customizable art direction (default: warm illustration style)
+- **Image Editing**: Edit and refine images with natural language
+- **Pipeline Workflows**: Generate with MJ, refine with NBP
+- **Customizable Brand**: YAML-based brand guidelines you can override
+- **Image Review Agent**: Automated quality checks against brand standards
+- **Prompt Templates**: Pre-configured templates for common asset types
 
 ## Installation
 
-### As a Claude Code Plugin
+### From GitHub
 
-Add to your Claude Code settings:
+Add to your Claude Code settings (`~/.claude/settings.json`):
 
 ```json
 {
-  "plugins": [
-    "github:puspesh/art-design-skill"
-  ]
+  "plugins": ["github:puspesh/art-design-skill"]
 }
 ```
 
 ### Manual Installation
 
 1. Clone this repository
-2. Copy the `skills/` directory to `~/.claude/skills/`
+2. Run Claude Code with the plugin:
+   ```bash
+   claude --plugin-dir ./art-design-skill
+   ```
 
-## Usage
+## Quick Start
 
-### Invoke the Skill
-
-The skill activates automatically when working on visual assets, or invoke manually:
-
-```
-/art-direction-visual-identity
-```
-
-### Generate Images
-
-```bash
-# List available templates
-python scripts/generate_image.py --list
-
-# Generate using preset templates
-python scripts/generate_image.py hero-banner
-python scripts/generate_image.py og-card
-python scripts/generate_image.py icon-sheet
-python scripts/generate_image.py interview-banner --mode bot-human
-
-# Custom prompt with art direction applied
-python scripts/generate_image.py custom --prompt "your concept here" --ar 16:9
-
-# Raw prompt (full control)
-python scripts/generate_image.py raw --prompt "exact midjourney prompt --ar 1:1"
-```
-
-### Environment Setup
-
-Set your APIframe API key:
+### 1. Set Up API Key
 
 ```bash
 export APIFRAME_API_KEY=your_key_here
 ```
 
 Or create a `.env` file:
-
 ```
 APIFRAME_API_KEY=your_key_here
 ```
 
-## Templates
+### 2. Generate Images
+
+```bash
+# List available templates
+python scripts/generate_image.py --list
+
+# Generate a hero banner
+python scripts/generate_image.py hero-banner
+
+# Generate with Nano Banana Pro
+python scripts/generate_image.py hero-banner --engine nbp --resolution 4K
+```
+
+### 3. Use Pipeline Refinement
+
+```bash
+# Generate with Midjourney, refine with Nano Banana Pro
+python scripts/generate_image.py hero-banner \
+  --pipeline nbp \
+  --refine-prompt "add subtle paper texture and warm golden overlay"
+```
+
+### 4. Edit Existing Images
+
+```bash
+python scripts/generate_image.py edit \
+  --input generated-assets/hero.png \
+  --prompt "add atmospheric fog and warm lighting"
+```
+
+## Available Templates
 
 | Template | Aspect Ratio | Use Case |
 |----------|--------------|----------|
@@ -85,21 +91,59 @@ APIFRAME_API_KEY=your_key_here
 | `interview-banner` | 16:9 | Interview mode specific |
 | `card-background` | 4:3 | Card/tile backgrounds |
 
-## Image References
+## Engines
 
-Generate images that match the style or composition of existing images:
+| Engine | Alias | Capabilities |
+|--------|-------|--------------|
+| Midjourney | `mj` | High-quality generation, style references |
+| Nano Banana Pro | `nbp` | Generation, editing, 1K-4K resolution |
 
-```bash
-# Style reference - match artistic style of an image
-python scripts/generate_image.py hero-banner --sref https://example.com/style.jpg
-python scripts/generate_image.py custom --prompt "workspace" --sref https://example.com/style.jpg --sw 150
+## Customization
 
-# Character reference - maintain character identity
-python scripts/generate_image.py custom --prompt "person at desk" --cref https://example.com/char.jpg --cw 75
+### Brand Guidelines
 
-# Image prompt - influence composition
-python scripts/generate_image.py custom --prompt "similar scene" --image-url https://example.com/ref.jpg --iw 1.5
+Edit `config/brand-guidelines.yaml` to define your own visual identity:
+
+```yaml
+name: "Your Brand"
+tagline: "Your tagline"
+
+feelings:
+  target: ["Clean", "Modern", "Professional"]
+  avoid: ["Cluttered", "Dated"]
+
+colors:
+  primary:
+    hex: "#0066FF"
+
+prompt_style:
+  base: "your style descriptors here"
 ```
+
+See [docs/customizing-brand.md](docs/customizing-brand.md) for full guide.
+
+### Review Criteria
+
+Edit `config/review-criteria.yaml` to define quality standards:
+
+```yaml
+on_failure:
+  action: "auto_regenerate"  # or "suggest_refinement" or "warn_only"
+  max_regeneration_attempts: 2
+
+categories:
+  color_warmth:
+    weight: 1.0
+    required: true
+```
+
+## Documentation
+
+- [Workflows Guide](docs/workflows.md) - Detailed workflow examples
+- [Customizing Brand](docs/customizing-brand.md) - Brand configuration
+- [Extending the Plugin](docs/extending.md) - Add skills, engines, templates
+
+## Image Reference Options (Midjourney)
 
 | Option | Description | Range |
 |--------|-------------|-------|
@@ -110,18 +154,18 @@ python scripts/generate_image.py custom --prompt "similar scene" --image-url htt
 | `--image-url` | Image prompt URL | - |
 | `--iw` | Image weight | 0-2 (default: 1.0) |
 
-## Visual Identity
+## Visual Identity (Default)
 
-**Core Feeling**: Calm Confidence - "The deep breath before you speak"
+**Core Feeling**: Whimsical warmth — stylized illustration with a fairground aesthetic
 
 **Key Elements**:
-- Warm darks (deep charcoal, not pure black)
-- Golden/amber accents
-- Paper grain textures
-- Atmospheric depth
-- Artisanal, hand-crafted feel
+- Digital illustration style (not photorealistic)
+- Coral and amber gradient skies
+- Painterly textures and soft gradients
+- Warm, dreamy atmosphere
+- Detailed artistic patterns
 
-See the full skill documentation for complete art direction guidelines.
+Customize via `config/brand-guidelines.yaml` — see [docs/customizing-brand.md](docs/customizing-brand.md).
 
 ## Dependencies
 
@@ -132,3 +176,13 @@ pip install requests python-dotenv
 ## License
 
 MIT
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Add your changes
+4. Update CHANGELOG.md
+5. Submit a pull request
+
+See [docs/extending.md](docs/extending.md) for development guide.
