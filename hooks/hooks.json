@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Art Design Plugin v3.0.0 loaded.'"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,215 @@
+# Brand Identity Configuration — Fairground.work
+# Single source of truth for visual identity across all generation engines.
+# See docs/customizing-brand.md for detailed guidance.
+
+name: "Fairground.work"
+tagline: "A fairground in urban San Francisco — warmth, craft, and whimsy"
+
+# ---------------------------------------------------------------------------
+# WORLD
+# The brand's visual world is a fictional fairground set up in San Francisco,
+# viewed from elevated vantage points (Dolores Park, Twin Peaks, Bernal Hill).
+# The city is always present as context — skyline, hills, landmarks — but the
+# fairground is the subject.
+# ---------------------------------------------------------------------------
+world:
+  setting: "A fairground nestled into San Francisco's green hills"
+  geography:
+    - "SF skyline visible in mid/background (Transamerica Pyramid, Salesforce Tower, downtown towers)"
+    - "At least one recognizable SF landmark as silhouette: Sutro Tower on the hills, or Golden Gate Bridge on the horizon"
+    - "Rolling green hills (Dolores Park, Bernal, Twin Peaks terrain — recognizably SF, not generic)"
+    - "Palm trees and urban greenery scattered through the scene"
+  fairground_elements:
+    always_present:
+      - "Ferris wheel — the brand's primary landmark, present in every image"
+      - "Striped carnival tents and canopies (amber/white, coral/white stripes)"
+      - "Small people silhouettes — crowds browsing, never individually detailed"
+    supporting:
+      - "Carousel, roller coaster, game booths, food stalls"
+      - "String lights and warm lantern glow (especially dusk/night scenes)"
+      - "Bunting and pennant flags"
+
+# ---------------------------------------------------------------------------
+# FEELINGS
+# ---------------------------------------------------------------------------
+feelings:
+  target:
+    - "Warm and inviting"
+    - "Whimsical but grounded"
+    - "Nostalgic — old travel poster / vintage postcard feel"
+    - "Dreamy golden hour"
+    - "Handcrafted, artisanal"
+    - "Bustling but calm"
+  avoid:
+    - "Photorealistic"
+    - "Cold or sterile"
+    - "Generic / could-be-anywhere"
+    - "Overly bright or saturated"
+    - "Flat / vector-art clean"
+    - "Clinical or corporate"
+
+# ---------------------------------------------------------------------------
+# ILLUSTRATION STYLE
+# This is THE brand constant. Colors vary by time of day, compositions vary
+# by use case, but the illustration technique never changes.
+# ---------------------------------------------------------------------------
+style:
+  type: "detailed hand-illustrated, ink-and-watercolor feel rendered digitally"
+  characteristics:
+    - "Visible ink outlines and fine line work on structures, tents, buildings"
+    - "Painterly color fills — soft washes, not flat or gradient-tool smooth"
+    - "Muted / slightly desaturated palette — nothing fully saturated, regardless of time of day"
+    - "Sepia-adjacent warmth — like a tinted old postcard"
+    - "Consistent detail density — tiny windows, tent stripes, crowd figures all at similar fidelity"
+    - "Slight grain or paper texture feel — not pixel-clean"
+    - "NOT vector art, NOT cel-shaded, NOT flat graphic poster style"
+  viewpoint:
+    - "Elevated vantage point, roughly 30-40 degree downward angle (default)"
+    - "Ground-level looking up at ferris wheel or an architectural landmark like Golden Gate Bridge, Salesforce Tower, London Eye, etc. (alternate, for close-up compositions)"
+    - "Never straight-on or flat orthographic"
+
+# ---------------------------------------------------------------------------
+# COLOR PALETTE
+# Colors shift with time of day but always stay muted and warm-leaning.
+# The illustration style and feel are the true constants — not a single
+# color scheme. Even night scenes feel warm because the fairground glows.
+# ---------------------------------------------------------------------------
+colors:
+  principle: "Always muted, never fully saturated. Everything feels warm even when the sky is cool."
+  by_variant:
+    dusk:
+      sky: "Deep amber/ochre at top, bright golden/warm peach at horizon"
+      fairground: "Warm browns, amber, terracotta"
+      note: "Primary brand palette — the default"
+    day:
+      sky: "Warm-tinted blue (not cold), white-golden clouds"
+      fairground: "Same warm amber/ochre tones, brighter greens on hills"
+      note: "Brighter but still muted — sun behind skyline creates warm backlight"
+    night:
+      sky: "Deep navy/dark blue-grey with stars"
+      fairground: "Warm amber glow from string lights and lanterns — the fairground is the light source"
+      note: "Cool sky contrasts with warm-lit ground. The warmth comes from within the scene."
+    sunrise:
+      sky: "Pink-lavender fading to golden at horizon, soft pastel clouds"
+      fairground: "Muted warm tones, slightly cooler than dusk — dusty blues and mauves mix with amber"
+      note: "Most painterly/watercolor-like variant. Softer overall."
+  constants:
+    - "Fairground structures always read warm (amber, ochre, warm brown) regardless of sky"
+    - "Greens are always muted olive, never vivid/saturated"
+    - "Tent stripes stay amber/white or dusty coral/white across all variants"
+  avoid:
+    - "Saturated red, pink, or magenta (even sunrise stays dusty/muted)"
+    - "Pure white — whites should be warm cream or tinted"
+    - "Pure black — darks should be warm dark brown or deep navy"
+    - "Any fully saturated color anywhere"
+
+# ---------------------------------------------------------------------------
+# LIGHTING & ATMOSPHERE
+# The single most important brand element. Get the light right and everything
+# else follows.
+# ---------------------------------------------------------------------------
+lighting:
+  default: "golden hour / dusk"
+  characteristics:
+    - "Sun low on the horizon, behind or beside the city skyline"
+    - "Warm amber glow radiating outward from the sun position"
+    - "Atmospheric haze between foreground and background — depth through desaturation"
+    - "Long shadows implied by low sun angle"
+    - "Light catches edges of structures, tent peaks, ferris wheel spokes"
+  variants:
+    dusk: "Default — amber/golden, sun setting behind skyline"
+    day: "Brighter but still warm, sun higher, warm-tinted blue sky"
+    night: "Deep blue-black sky with stars, fairground self-lit by warm string lights and lanterns, city skyline glows faintly"
+    sunrise: "Softer pink-lavender-golden sky, warm light from the east, long gentle shadows"
+
+# ---------------------------------------------------------------------------
+# CLOUDS & SKY
+# Naturalistic and painterly — never decorative or patterned.
+# ---------------------------------------------------------------------------
+clouds:
+  style: "Soft, painterly wisps — naturalistic cloud shapes"
+  characteristics:
+    - "Painted with visible brush-stroke quality"
+    - "Tinted to match the lighting variant — amber at dusk, pink-lavender at sunrise, warm white in day"
+    - "Sparse to moderate coverage — sky gradient should always read clearly"
+    - "Soft edges, no hard outlines on clouds"
+  avoid:
+    - "Decorative patterned clouds (no stippling, line patterns, or geometric textures)"
+    - "Uniform puffy cartoon clouds"
+    - "Heavy overcast — sky gradient should always be visible"
+
+# ---------------------------------------------------------------------------
+# TEXTURES
+# The illustrations should feel hand-made, not digitally clean.
+# Especially important on large background areas (sky, ground, buildings).
+# ---------------------------------------------------------------------------
+textures:
+  "required (especially on backgrounds)":
+    - "Visible ink/line work on architectural elements"
+    - "Subtle color blotches and tonal variation on background areas"
+    - "Painterly color washes with slight bleed and variation"
+    - "Subtle overall grain or paper-like noise"
+    - "Tonal variation within flat areas — nothing is perfectly uniform"
+  avoid:
+    - "Photographic textures or realism"
+    - "Hard vector edges"
+    - "Perfectly flat solid colors"
+    - "Overly busy decorative overlays"
+
+# ---------------------------------------------------------------------------
+# DEPTH & COMPOSITION
+# Three clear depth layers with atmospheric perspective.
+# ---------------------------------------------------------------------------
+depth:
+  description: "Layered scene with atmospheric perspective and warm haze"
+  layers:
+    foreground: "Dense fairground detail — tents, stalls, crowds, rides"
+    midground: "City buildings, green hills, Sutro Tower or Golden Gate Bridge silhouette"
+    background: "Sky gradient with painterly clouds, distant mountains/hills"
+  atmosphere:
+    - "Each layer progressively lighter and more desaturated"
+    - "Warm haze between layers — not fog, just softening"
+    - "Foreground has full detail and contrast"
+    - "Background city reads as silhouette with minimal detail"
+
+# ---------------------------------------------------------------------------
+# PROMPT MODIFIERS
+# These are appended/prepended to generation prompts by the engine.
+# The base prompt captures the illustration STYLE (the constant), not the
+# color variant. Color/lighting are added per-template or per-invocation.
+# ---------------------------------------------------------------------------
+prompt_style:
+  base: "detailed hand-illustrated ink-and-watercolor style, visible ink outlines on structures, painterly soft color washes, muted desaturated warm palette, ferris wheel as landmark, SF cityscape with recognizable landmarks in background, rolling green hills, soft naturalistic painterly clouds, atmospheric haze between depth layers, subtle paper grain texture, nostalgic vintage travel poster warmth, slight color blotches on background areas, not photorealistic, not vector art, not flat graphic style, not cel-shaded"
+  suffix_midjourney: "--style raw --no photorealistic photograph photo 3d render vector flat cel-shaded"
+  suffix_nano_banana: ""
+
+# Prompt style suffix for Gemini engine (no MJ flags)
+prompt_style_suffix_gemini: "not photorealistic, not vector art, not 3d render, not cel-shaded"
+
+# ---------------------------------------------------------------------------
+# STYLE REFERENCES
+# Auto-applied brand reference images for engine-aware consistency.
+# ---------------------------------------------------------------------------
+style_references:
+  enabled: false  # Set to true once you configure sref URL or local paths
+  midjourney_sref: ""  # Public URL for --sref (host a brand reference image)
+  midjourney_sref_weight: 100  # Default --sw value (0-1000)
+  local_paths:  # Local sample images for Gemini/NBP multimodal reference
+    - "samples/bg-image-04-hires.webp"
+  style_instruction: "Match the artistic style of the reference image exactly: detailed hand-illustrated ink-and-watercolor style, muted warm palette, visible ink line work on structures, painterly soft color fills, atmospheric haze between depth layers, SF fairground setting with ferris wheel. Keep the same level of desaturation and grain. Do not make it more saturated, more graphic, or more flat/vector-like than the reference."
+
+# ---------------------------------------------------------------------------
+# ICON DESIGN
+# ---------------------------------------------------------------------------
+icons:
+  style: "hand-illustrated with warm muted colors, matching the main brand style"
+  features:
+    - "Visible ink outlines"
+    - "Warm amber/ochre color accents"
+    - "Slight texture / grain"
+    - "Soft gradients, not flat fills"
+  avoid:
+    - "Photorealistic"
+    - "Flat minimal / material design"
+    - "Cool colors"
+    - "Perfect geometric precision — should feel hand-drawn"

@@ -1,0 +1,109 @@
+# Image Review Criteria Configuration
+# Users can modify this file to define their own review standards
+# See docs/customizing-brand.md for detailed guidance
+
+name: "Visual Identity Review"
+description: "Checklist for reviewing generated images against brand guidelines"
+
+# Review behavior on failure
+on_failure:
+  # Options: suggest_refinement, auto_regenerate, warn_only
+  action: "suggest_refinement"
+
+  # For auto_regenerate mode
+  max_regeneration_attempts: 2
+  refinement_prompt_template: "Adjust the image to better match these criteria: {failed_criteria}"
+
+# Minimum passing score (0-100)
+passing_threshold: 70
+
+# Review categories and criteria
+categories:
+  color_warmth:
+    name: "Color Warmth"
+    description: "Colors should feel warm and inviting, not clinical or cold"
+    weight: 1.0  # Importance weight (0-1)
+    required: true
+    enabled: true
+    criteria:
+      - check: "No sterile blues or whites dominating"
+        description: "Colors should feel warm, not clinical"
+      - check: "Golden/amber accents present"
+        description: "Warm accent colors add life"
+      - check: "Deep charcoal instead of pure black"
+        description: "Blacks should have warmth"
+
+  texture:
+    name: "Texture Presence"
+    description: "Image should have visible texture, not feel flat or digital"
+    weight: 0.8
+    required: true
+    enabled: true
+    criteria:
+      - check: "Visible texture (paper grain, noise)"
+        description: "Image should not feel flat or digital"
+      - check: "Atmospheric gradients"
+        description: "Smooth tonal transitions"
+
+  depth:
+    name: "Visual Depth"
+    description: "Image should have layered elements and dimensional quality"
+    weight: 0.8
+    required: true
+    enabled: true
+    criteria:
+      - check: "Layered elements visible"
+        description: "Multiple planes of depth"
+      - check: "Soft shadows present"
+        description: "Shadows add dimension"
+      - check: "Not completely flat"
+        description: "Some 3D quality"
+
+  feeling:
+    name: "Emotional Alignment"
+    description: "Image should evoke the target brand feelings"
+    weight: 1.0
+    required: true
+    enabled: true
+    criteria:
+      - check: "Evokes calm, prepared feeling"
+        description: "Should feel grounding, not anxious"
+      - check: "Professional but approachable"
+        description: "Not sterile or corporate"
+
+  composition:
+    name: "Composition"
+    description: "Layout and focal points should be well-considered"
+    weight: 0.6
+    required: false  # Optional for some asset types
+    enabled: true
+    criteria:
+      - check: "Focal point appropriately placed"
+        description: "Center-weighted for banners"
+      - check: "Safe zones respected"
+        description: "Text-safe margins where needed"
+
+  craftsmanship:
+    name: "Artisanal Quality"
+    description: "Image should feel hand-crafted, not generic"
+    weight: 0.7
+    required: false
+    enabled: true
+    criteria:
+      - check: "Hand-crafted feel present"
+        description: "Not sterile SaaS default style"
+      - check: "Intentional imperfection"
+        description: "Organic quality, not overly perfect"
+
+# Custom criteria users can add
+# Example:
+# custom_criteria:
+#   - name: "Brand Logo Visibility"
+#     check: "Company logo is visible in corner"
+#     weight: 0.9
+#     required: true
+#   - name: "Color Accessibility"
+#     check: "Sufficient contrast for accessibility"
+#     weight: 0.7
+#     required: false
+custom_criteria: []

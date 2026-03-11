@@ -40,12 +40,17 @@ Add to your Claude Code settings (`~/.claude/settings.json`):
 ### 1. Set Up API Key
 
 ```bash
-export APIFRAME_API_KEY=your_key_here
+# For Nano Banana Pro via Gemini (recommended)
+export GEMINI_API_KEY=your_gemini_key_here
+
+# For Midjourney (and APIframe-backed NBP fallback)
+export APIFRAME_API_KEY=your_apiframe_key_here
 ```
 
 Or create a `.env` file:
 ```
-APIFRAME_API_KEY=your_key_here
+GEMINI_API_KEY=your_gemini_key_here
+APIFRAME_API_KEY=your_apiframe_key_here
 ```
 
 ### 2. Generate Images
@@ -97,6 +102,9 @@ python scripts/generate_image.py edit \
 |--------|-------|--------------|
 | Midjourney | `mj` | High-quality generation, style references |
 | Nano Banana Pro | `nbp` | Generation, editing, 1K-4K resolution |
+| Gemini (direct) | `gemini` | Direct Gemini API, no APIframe needed |
+
+> **Fallback behaviour**: `--engine nbp` auto-selects the direct Gemini API when `GEMINI_API_KEY` is set. If only `APIFRAME_API_KEY` is available it falls back to APIframe.
 
 ## Customization
 

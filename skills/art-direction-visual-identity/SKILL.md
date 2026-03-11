@@ -1,7 +1,7 @@
 ---
 name: art-direction-visual-identity
 description: Use when generating banners, icons, artwork, or any visual assets. Provides atmosphere definition, prompt templates, image generation script execution, and local asset management.
-version: 2.0.0
+version: 3.0.0
 author: puspesh
 date: 2025-01-19
 ---
@@ -26,11 +26,15 @@ This skill activates when you need to:
 
 ### 1. Image Generation via Script
 
-Use the `generate_image.py` script to generate Midjourney images with pre-configured art direction.
+Use the `generate_image.py` script to generate images with pre-configured art direction. Supports multiple AI engines.
 
 **Script Location**: `scripts/generate_image.py` (relative to this skill's repo)
 
 **Output Directory**: `generated-assets/` (created automatically)
+
+**Supported Engines**:
+- **Midjourney** (default) - High-quality artistic generation via APIframe
+- **Nano Banana Pro** - Gemini image model, supports generation and editing
 
 ### Available Commands
 
@@ -38,7 +42,7 @@ Use the `generate_image.py` script to generate Midjourney images with pre-config
 # List all available templates
 python scripts/generate_image.py --list
 
-# Generate using preset templates
+# Generate using preset templates (Midjourney by default)
 python scripts/generate_image.py hero-banner
 python scripts/generate_image.py og-card
 python scripts/generate_image.py twitter-card
@@ -58,9 +62,78 @@ python scripts/generate_image.py raw --prompt "exact midjourney prompt --ar 1:1 
 ```
 
 **Options**:
+- `--engine`, `-e`: Choose engine (`midjourney`/`mj` or `nano-banana-pro`/`nbp`)
 - `--no-download`: Only show URLs, don't download images
 - `--output-prefix`, `-o`: Custom filename prefix
 - `--timeout`: Generation timeout in seconds (default: 300)
+
+### Engine Selection
+
+Choose between Midjourney (default) or Nano Banana Pro:
+
+```bash
+# Use Midjourney (default)
+python scripts/generate_image.py hero-banner
+python scripts/generate_image.py hero-banner --engine mj
+
+# Use Nano Banana Pro
+python scripts/generate_image.py hero-banner --engine nbp
+python scripts/generate_image.py hero-banner --engine nano-banana-pro
+
+# Nano Banana Pro with resolution control (1K, 2K, 4K)
+python scripts/generate_image.py hero-banner --engine nbp --resolution 4K
+```
+
+### Image Editing (Nano Banana Pro)
+
+Edit existing images using natural language:
+
+```bash
+# Edit a local image
+python scripts/generate_image.py edit \
+  --input generated-assets/hero-banner_1234_1.png \
+  --prompt "add warm sunset lighting and atmospheric fog"
+
+# Edit from URL
+python scripts/generate_image.py edit \
+  --input https://example.com/image.jpg \
+  --prompt "enhance details and add cinematic color grading"
+
+# Multiple input images (compositing)
+python scripts/generate_image.py edit \
+  --input image1.png \
+  --input image2.png \
+  --prompt "blend these images with smooth transitions"
+
+# Edit with resolution control
+python scripts/generate_image.py edit \
+  --input original.png \
+  --prompt "upscale and enhance details" \
+  --resolution 4K
+```
+
+### Pipeline Workflows
+
+Generate with Midjourney, then refine with Nano Banana Pro:
+
+```bash
+# Basic pipeline
+python scripts/generate_image.py hero-banner \
+  --pipeline nbp \
+  --refine-prompt "enhance details and add cinematic color grading"
+
+# Pipeline with 4K output
+python scripts/generate_image.py hero-banner \
+  --pipeline nbp \
+  --refine-prompt "sharpen details, enhance warmth" \
+  --resolution 4K
+```
+
+**Pipeline behavior**:
+- Generates with Midjourney first
+- Saves intermediate result in case pipeline fails
+- Passes generated images to Nano Banana Pro for refinement
+- Final output includes both intermediate and refined versions
 
 ### 2. Accessing Generated Images
 
@@ -90,9 +163,11 @@ Or create a `.env` file in the script directory:
 APIFRAME_API_KEY=your_key_here
 ```
 
-### 4. Image Reference Features
+### 4. Image Reference Features (Midjourney)
 
-Generate images that match the style or composition of existing images.
+Generate images that match the style or composition of existing images. These features are Midjourney-specific.
+
+> **Note**: For Nano Banana Pro, use the `edit` command with `--input` to work with existing images.
 
 #### Style Reference (--sref)
 Match the artistic style, colors, and aesthetic of a reference image:
@@ -430,10 +505,19 @@ KEY PROMPT ELEMENTS:
 - subtle paper texture
 - warm earth tones
 - artisanal crafted quality
-- --style raw
-- --no people faces text
+- --style raw (Midjourney only)
+- --no people faces text (Midjourney only)
 
-SCRIPT: python scripts/generate_image.py <template>
+ENGINES:
+- midjourney (mj)       Default, high-quality artistic generation
+- nano-banana-pro (nbp) Gemini model, supports editing
+
+COMMON COMMANDS:
+  python scripts/generate_image.py <template>
+  python scripts/generate_image.py <template> --engine nbp
+  python scripts/generate_image.py edit --input <image> --prompt "..."
+  python scripts/generate_image.py <template> --pipeline nbp --refine-prompt "..."
+
 OUTPUT: generated-assets/
 ```
 
@@ -441,5 +525,6 @@ OUTPUT: generated-assets/
 
 ## References
 
-- APIframe documentation: https://apiframe.pro/docs
+- APIframe documentation: https://docs.apiframe.ai/
 - Midjourney documentation: https://docs.midjourney.com/
+- Nano Banana (Gemini Image): https://ai.google.dev/gemini-api/docs/image-generation
